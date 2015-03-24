@@ -1,3 +1,9 @@
+<?php
+
+require_once 'connection.php';
+
+?>
+
 <!DOCTYPE html>
 
 <html lang="pl-PL">
@@ -21,23 +27,7 @@
 	<br>
 
 <?php
-
-	$servername = "localhost";
-	$username = "root";
-	$password = "cwiczenia";
-	$baseName = "kino";
-
-		$conn = new mysqli($servername, $username, $password, $baseName);
-		$conn -> query ('SET NAMES utf8');
-	
-			if ($conn->connect_error) {
-				die("Połączenie nieudane. Błąd: " . $conn->connect_error);
-			}
-			else {
-				echo "Połączenie z bazą ", '<strong>', $baseName, '</strong>', " udane :)";
-				echo '<br>', '<br>';
-			}
-				
+			
 	$sql = "CREATE TABLE Seans (
 				id int AUTO_INCREMENT,
 				film_id int NOT NULL,
@@ -65,7 +55,7 @@
 	<br>		
 	
 	<h2>
-	Wyświetlanie Kin z bazy:
+	Wyświetlanie Kin z bazy w kolejności alfabetycznej:
 	</h2>
 
 	<br>
@@ -74,7 +64,7 @@
 				
 <?php 
 				
-		$sql = "SELECT * FROM Cinemas";
+		$sql = "SELECT * FROM Cinemas ORDER BY name";
 		$result = $conn->query($sql);
 		
 			if ($result->num_rows > 0) {
@@ -93,7 +83,7 @@
 	<br>		
 	
 	<h2>
-	Wyświetlanie filmów z bazy:
+	Wyświetlanie filmów z bazy w kolejności alfabetycznej:
 	</h2>
 
 	<br>
@@ -102,7 +92,7 @@
 		
 <?php 
 
-		$sql = "SELECT * FROM Movies";
+		$sql = "SELECT * FROM Movies ORDER BY name";
 		$result = $conn->query($sql);
 		
 			if ($result->num_rows > 0) {
@@ -114,6 +104,20 @@
 				echo "Brak filmów w bazie.";
 			}
 	
+		$sql = "SELECT Cinemas.name, Movies.name FROM Cinemas INNER JOIN Movies ORDER by Cinemas.name";
+		$result = $conn->query($sql);
+		
+			if ($result->num_rows > 0) {
+				while ($row = $result->fetch_assoc()) {
+					var_dump($row);
+			//		echo $row["name"], '<br>'; // ? :-/
+				}
+			}
+			else {
+				echo "Brak danych w bazie.";
+			}
+		
+			
 $conn->close(); // zamykanie tabeli ZAWSZE na końcu - to logiczne!
 $conn = null; 	// zamykanie tabeli ZAWSZE na końcu - to logiczne!
 
