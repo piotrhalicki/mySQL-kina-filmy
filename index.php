@@ -59,6 +59,19 @@ $baseName = "kino";
 		
 		// auto increment jest zbędne w przypadku podawania klucza głównego		
 		
+		$sql = "SELECT * FROM Cinemas";
+		$result = $conn->query($sql);
+		
+		if ($result->num_rows > 0) {
+			while ($row = $result->fetch_assoc()) {
+				echo '<strong>', "Kino: ", '</strong>' .$row["name"], "<br>", '<strong>', "Adres: ", '</strong>' .$row["adress"]."<br>", "<br>";
+			}
+		}
+		else {
+			echo "Brak kin";
+		}
+		
+	
 		
 $conn->close(); // zamykanie tabeli ZAWSZE na końcu - to logiczne!
 $conn = null; 	// zamykanie tabeli ZAWSZE na końcu - to logiczne!
